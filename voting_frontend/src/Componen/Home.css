@@ -1,0 +1,158 @@
+/* Home.css
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+}
+
+.home-title {
+  font-size: 3rem;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+.home-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 15px 30px;
+  border: none;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary:hover {
+  background-color: #218838;
+} */
+
+
+/* Second */
+
+/* Home.css */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Title Animation */
+.animated-title {
+  font-size: 3rem;
+  margin-bottom: 40px;
+  font-weight: 700;
+  opacity: 0;
+  animation: slideDown 1.5s ease forwards;
+}
+
+/* Button Animations */
+.animated-button {
+  padding: 15px 30px;
+  border: none;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: fadeInUp 1.8s ease forwards;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.btn-secondary:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+/* Animations */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-buttons {
+  display: flex;
+  gap: 20px;
+  animation: fadeInButtons 2s ease-in-out;
+}
+
+/* Animating Buttons to Appear One After Another */
+@keyframes fadeInButtons {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

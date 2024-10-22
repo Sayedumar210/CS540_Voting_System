@@ -30,9 +30,3 @@ def signup(request):
         token = Token.objects.create(user=user)
         return Response({'token' : token.key, 'user': serializer.data}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def dashboard(request):
-    return Response({'is_authenticated':'authenticated', 'user':request.data})

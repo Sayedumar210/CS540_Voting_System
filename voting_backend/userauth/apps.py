@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class VoteCollectorConfig(AppConfig):
+class UserauthConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'vote_collector'
+    name = 'userauth'

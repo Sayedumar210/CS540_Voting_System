@@ -4,4 +4,4 @@ from .models import *
 # Register your models here.
 admin.site.register(Poll)
 admin.site.register(Option)
-admin.site.register(vote)
+admin.site.register(Vote)

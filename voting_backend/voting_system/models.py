@@ -9,6 +9,7 @@ class Poll(models.Model):
     private = models.BooleanField()
     invited_voters = models.ManyToManyField(User, related_name='invited_polls')
     created_at = models.DateTimeField(auto_now_add=True)
+    expiry_time = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.question
@@ -21,11 +22,11 @@ class Option(models.Model):
     def __str__(self):
         return self.option_text
 
-class vote(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+class Vote(models.Model):
+    voter = models.ForeignKey(User, on_delete=models.CASCADE)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
     option = models.ForeignKey(Option, on_delete=models.CASCADE)
     voted_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'poll')
+        unique_together = ('voter', 'poll', 'option')

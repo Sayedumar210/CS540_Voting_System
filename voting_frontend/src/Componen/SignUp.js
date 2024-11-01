@@ -6,7 +6,6 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dob, setDob] = useState('');
-  const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -18,7 +17,6 @@ const SignUp = () => {
       firstName,
       lastName,
       dob,
-      address,
       email,
       password,
     };
@@ -48,13 +46,6 @@ const SignUp = () => {
           placeholder="Date of Birth"
           value={dob}
           onChange={(e) => setDob(e.target.value)}
-          className="auth-input"
-        />
-        <input
-          type="text"
-          placeholder="Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
           className="auth-input"
         />
         <input

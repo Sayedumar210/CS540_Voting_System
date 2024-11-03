@@ -29,4 +29,4 @@ class Vote(models.Model):
     voted_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('voter', 'poll', 'option')
+        unique_together = ('voter', 'poll')

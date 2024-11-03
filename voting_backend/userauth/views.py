@@ -12,8 +12,10 @@ User = get_user_model()
 @api_view(['GET'])
 def getUser(request):
     user = request.user
-    serializer = UserSerializer(instance=user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    if not user.is_anonymous:
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({'detail':'user not logged in'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['POST'])
 def signup(request):

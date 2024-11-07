@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,13 +14,17 @@ User = get_user_model()
 @api_view(['GET'])
 def getPolls(request):
     user = request.user
-    polls = Poll.objects.filter(Q(creator=user) | Q(private=False) | Q(invited_voters = user) | Q(expiry_time__gt = timezone.now()))
-    serializer = PollSerializer(data = polls, many=True)
+    if user.is_anonymous:
+        return Response({'detail':'user not logged in'}, status=status.HTTP_401_UNAUTHORIZED)
+    polls = Poll.objects.filter(Q(creator=user) | Q(private=False) | Q(invited_voters=user) | Q(expiry_time__gt=timezone.now()))
+    serializer = PollSerializer(data=polls, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def createPoll(request):
     question = request.data['poll']['question']
+    if user.is_anonymous:
+        return Response({'detail':'user not logged in'}, status=status.HTTP_401_UNAUTHORIZED)
     creator = request.user
     private = request.data['poll']['private']
     expiry_time = request.data['poll']['expiry_time']
@@ -41,12 +44,14 @@ def createPoll(request):
     response = {
         'detail':'poll created'
     }
+    poll.save()
     if len(email_not_found):
         response['users_not_found'] = email_not_found
     
     for op_text in request.data['poll']['options']:
         option = Option.objects.create(option_text=op_text)
         option.poll = poll
+        option.save()
     
     return Response(response, status=status.HTTP_201_CREATED)
 
@@ -55,7 +60,7 @@ def castVote(request):
     poll_id = request.data['poll_id']
     poll = Poll.objects.get(id=poll_id)
     user = request.user
-    if user and (poll.creator == user or poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time < timezone.now():
+    if not user.is_anonymous and (poll.creator == user or poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time < timezone.now():
         option_id = request.data['opyion_id']
         option = Option.objects.get(id=option_id)
         vote, created = Vote.objects.get_or_create(poll = poll, option = option, voter = user)
@@ -71,7 +76,7 @@ def castVote(request):
 def polldetail(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
     user = request.user
-    if user and (poll.creator == user or poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time < timezone.now():
+    if not user.is_anonymous and (poll.creator == user or poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time < timezone.now():
         options = Option.objects.filter(poll=poll)
         serializer1 = OptionSerializer(options, many=True)
         serializer2 = PollSerializer(poll)

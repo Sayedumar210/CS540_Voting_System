@@ -17,8 +17,10 @@ def getPolls(request):
     if user.is_anonymous:
         return Response({'detail':'user not logged in'}, status=status.HTTP_401_UNAUTHORIZED)
     polls = Poll.objects.filter(Q(creator=user) | Q(private=False) | Q(invited_voters=user) | Q(expiry_time__gt=timezone.now()))
-    serializer = PollSerializer(data=polls, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    serializer = PollSerializer(polls, many=True)
+    if serializer.is_valid():
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({'detail':'internal error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 def createPoll(request):

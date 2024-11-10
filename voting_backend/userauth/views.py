@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import UserSerializer
 from django.contrib.auth import get_user_model
@@ -9,12 +10,11 @@ User = get_user_model()
 
 # Create your views here.
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getUser(request):
     user = request.user
-    if not user.is_anonymous:
-        serializer = UserSerializer(instance=user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response({'detail':'user not logged in'}, status=status.HTTP_401_UNAUTHORIZED)
+    serializer = UserSerializer(instance=user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def signup(request):

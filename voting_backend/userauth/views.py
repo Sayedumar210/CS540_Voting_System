@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from .serializers import UserSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import status
@@ -25,6 +26,12 @@ def signup(request):
         user.first_name = request.data['first_name']
         user.last_name = request.data['last_name']
         user.save()
-        return Response({'detail':'User Created'}, status=status.HTTP_201_CREATED)
+        refresh = RefreshToken.for_user(user=user)
+        access = AccessToken.for_user(user=user)
+        response_data = {
+            'detail': 'User Created',
+            'tokens':{'access':access, 'refresh':refresh}
+        }
+        return Response(response_data, status=status.HTTP_201_CREATED)
     else:
         return Response({'detail':'user already exists with email'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)

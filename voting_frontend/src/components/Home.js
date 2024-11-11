@@ -1,16 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios'
 import './Home.css';  // Importing the CSS file
 
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.withCredentials = true;
 
-const client = axios.create({
-  baseURL: 'https://127.0.0.1:8000'
-});
 
 const Home = () => {
   const [CurrentUser, setCurrentUser] = useState();

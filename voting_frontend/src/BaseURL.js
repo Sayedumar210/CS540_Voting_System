@@ -1,1 +1,2 @@
-export const BASE_URL = 'http://192.168.21.188:8000'
+const  BASE_URL = 'http://localhost:8000'
+export default BASE_URL

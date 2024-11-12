@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8000/userauth/login/", {
+    const response = await fetch("http://192.168.21.188:8000/userauth/login/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   let handleSignUp = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://127.0.0.1:8000/userauth/signup", {
+    const response = await fetch("http://192.168.21.188:8000/userauth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

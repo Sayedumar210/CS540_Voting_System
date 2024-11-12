@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const response = await fetch("http://127.0.0.1:8000/userauth/getuser", {
+      const response = await fetch("http://192.168.21.188:8000/userauth/getuser", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -32,7 +32,7 @@ const Dashboard = () => {
     };
 
     const fetchPolls = async () => {
-      const response = await fetch("http://127.0.0.1:8000/polls/getpolls", {
+      const response = await fetch("http://192.168.21.188:8000/polls/getpolls", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

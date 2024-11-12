@@ -13,7 +13,7 @@ const PollPage = () => {
 
   useEffect(() => {
     const fetchPoll = async () => {
-      const response = await fetch(`http://localhost:8000/polls/poll/${poll_id}`, {
+      const response = await fetch(`http://192.168.21.188:8000/polls/poll/${poll_id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -38,7 +38,7 @@ const PollPage = () => {
   }, [poll_id]);
 
   const handleVote = async () => {
-    const response = await fetch("http://localhost:8000/polls/castvote/", {
+    const response = await fetch("http://192.168.21.188:8000/polls/castvote/", {
         method: "POST",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("accessToken"),

@@ -46,7 +46,7 @@ const CreatePoll = () => {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const response = await fetch("http://127.0.0.1:8000/userauth/getuser", {
+      const response = await fetch("http://192.168.21.188:8000/userauth/getuser", {
         method: "GET",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("accessToken"),
@@ -68,7 +68,7 @@ const CreatePoll = () => {
 
   const handleSubmit = async () => {
     const expiryDateTime = `${expiryDate}T${expiryTime}:00`;
-    const response = await fetch("http://127.0.0.1:8000/polls/createpoll", {
+    const response = await fetch("http://192.168.21.188:8000/polls/createpoll/", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("accessToken"),

@@ -1,0 +1,131 @@
+/* General container styles */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* NavBar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+.navbar-links li a {
+  text-decoration: none;
+  color: white;
+  padding: 0.5rem 1rem;
+}
+.navbar-links li a:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.create-poll-button {
+  background-color: #ffffff;
+  color: #4a90e2;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.create-poll-button:hover {
+  background-color: #4a90e2;
+  color: #ffffff;
+}
+
+/* Polls List styles */
+.polls-list-container {
+  margin-top: 2rem;
+  background-color: #f4f7fb;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.polls-list-container h3 {
+  color: #4a4a4a;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.polls-list {
+  padding: 0;
+}
+
+.polls-list li {
+  list-style-type: none;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.polls-list li:hover {
+  background-color: #eef3f8;
+  transition: background-color 0.3s ease;
+}
+
+.vote-button {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.vote-button:hover {
+  background-color: #357abd;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.view-button {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.view-button:hover {
+  background-color: #357abd;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}

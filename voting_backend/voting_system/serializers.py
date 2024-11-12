@@ -10,4 +10,4 @@ class PollSerializer(serializers.ModelSerializer):
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Option
-        fields = ['option_text', 'id']
+        fields = ['option_text', 'id', 'votes']

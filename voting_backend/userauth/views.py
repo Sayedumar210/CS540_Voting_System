@@ -10,12 +10,6 @@ from rest_framework import status
 User = get_user_model()
 
 # Create your views here.
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getUser(request):
-    user = request.user
-    serializer = UserSerializer(instance=user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def signup(request):
@@ -30,8 +24,16 @@ def signup(request):
         access = AccessToken.for_user(user=user)
         response_data = {
             'detail': 'User Created',
-            'tokens':{'access':access, 'refresh':refresh}
+            'tokens':{'access':str(access), 'refresh':str(refresh)}
         }
         return Response(response_data, status=status.HTTP_201_CREATED)
     else:
         return Response({'detail':'user already exists with email'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUser(request):
+    user = request.user
+    serializer = UserSerializer(instance=user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+

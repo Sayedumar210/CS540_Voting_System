@@ -6,25 +6,9 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-  let [accessToken, setAccessToken] = useState(
-    localStorage.getItem("accessToken")
-      ? localStorage.getItem("accessToken")
-      : null
-  );
-
-  let [refreshToken, setRefreshToken] = useState(
-    localStorage.getItem("refreshToken")
-      ? localStorage.getItem("refreshToken")
-      : null
-  );
-
-  let [user, setUser] = useState(null);
-
-  let [firstLoad, setFirstLoad] = useState(true);
-
   let navigate = useNavigate();
 
-  let handleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const response = await fetch("http://localhost:8000/userauth/login/", {
       method: "POST",
@@ -40,11 +24,9 @@ export const AuthProvider = ({ children }) => {
     const data = await response.json();
 
     if (response.status === 200) {
-      setAccessToken(data.access);
-      setRefreshToken(data.refresh);
       localStorage.setItem("accessToken", data.access);
       localStorage.setItem("refreshToken", data.refresh);
-      getUserDetails();
+      console.log(localStorage.getItem('accessToken'))
       navigate("/dashboard");
     } else {
       alert(data.detail);
@@ -53,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   let handleSignUp = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8000/userauth/signup/", {
+    const response = await fetch("http://127.0.0.1:8000/userauth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,79 +51,26 @@ export const AuthProvider = ({ children }) => {
     const data = await response.json();
 
     if (response.status === 201) {
-      setAccessToken(data.access);
-      setRefreshToken(data.refresh);
-      localStorage.setItem("accessToken", data.access);
-      localStorage.setItem("refreshToken", data.refresh);
-      getUserDetails();
+      localStorage.setItem("accessToken", data.tokens.access);
+      navigate("/dashboard");
     } else {
       alert(data.detail);
     }
   };
 
-  let getUserDetails = async () => {
-    const response = await fetch("http://localhost:8000/userauth/getuser/", {
-      method: "GET",
-      headers: {
-        'Authorization': "Bearer " + accessToken,
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    if (response.stattus === 200) {
-      setUser(data);
-    } else {
-      alert(data.detail);
-    }
+  let handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/");
   };
-
-  let updateToken = async () => {
-    let response = await fetch("http://localhost:8000/userauth/token-refresh/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refresh: refreshToken }),
-    });
-    let data = await response.json();
-    if (response.status === 200) {
-      setAccessToken(data.access);
-      setRefreshToken(data.refresh);
-      localStorage.setItem("accessToken", data.access);
-      localStorage.setItem("refreshToken", data.refresh);
-    }
-    else {
-      alert(data.detail)
-    }
-
-    if (firstLoad) {
-      setFirstLoad(false);
-    }
-  };
-
-  useEffect(() => {
-    if (firstLoad) {
-      updateToken();
-    }
-    let fourteenMinutes = 1000 * 60 * 14;
-    let interval = setInterval(()=>{
-      if(refreshToken){
-        updateToken()
-      }
-    }, fourteenMinutes)
-    return () => clearInterval(interval)
-  })
 
   let contextData = {
-    accessToken: accessToken,
-    refreshToken: refreshToken,
-    user: user,
     handleLogin: handleLogin,
     handleSignUp: handleSignUp,
-    getUserDetails: getUserDetails,
+    handleLogout: handleLogout,
   };
 
   return (
-    <AuthContext.Provider value={contextData}>{firstLoad ? null : children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
   );
 };

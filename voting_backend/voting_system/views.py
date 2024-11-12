@@ -16,11 +16,9 @@ User = get_user_model()
 @permission_classes([IsAuthenticated])
 def getPolls(request):
     user = request.user
-    polls = Poll.objects.filter(Q(creator=user) | Q(private=False) | Q(invited_voters=user) | Q(expiry_time__gt=timezone.now()))
+    polls = Poll.objects.filter(Q(private=False) | Q(invited_voters=user) | Q(expiry_time__gt=timezone.now()))
     serializer = PollSerializer(polls, many=True)
-    if serializer.is_valid():
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response({'detail':'internal error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -29,10 +27,7 @@ def createPoll(request):
     creator = request.user
     private = request.data['poll']['private']
     expiry_time = request.data['poll']['expiry_time']
-    poll = Poll.objects.create(question=question)
-    poll.creator = creator
-    poll.expiry_time = expiry_time
-    poll.private = private
+    poll = Poll( question=question, creator=creator, expiry_time=expiry_time, private=private)
     email_not_found = []
     if private:
         for email in request.data['poll']['invited_users']:
@@ -50,8 +45,7 @@ def createPoll(request):
         response['users_not_found'] = email_not_found
     
     for op_text in request.data['poll']['options']:
-        option = Option.objects.create(option_text=op_text)
-        option.poll = poll
+        option = Option.objects.create(option_text=op_text, poll = poll)
         option.save()
     
     return Response(response, status=status.HTTP_201_CREATED)
@@ -62,8 +56,8 @@ def castVote(request):
     poll_id = request.data['poll_id']
     poll = Poll.objects.get(id=poll_id)
     user = request.user
-    if (poll.creator == user or poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time < timezone.now():
-        option_id = request.data['opyion_id']
+    if (poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time > timezone.now():
+        option_id = request.data['option_id']
         option = Option.objects.get(id=option_id)
         vote, created = Vote.objects.get_or_create(poll = poll, option = option, voter = user)
         if created:
@@ -71,7 +65,7 @@ def castVote(request):
             option.save()
             vote.save()
             return Response({'detail':'Vote Casted'}, status=status.HTTP_202_ACCEPTED)
-        return Response({'detail':'already voted'},status=status.HTTP_304_NOT_MODIFIED)
+        return Response({'detail':'Already Voted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     return Response({'detail':'Cannot cast vote'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['GET'])
@@ -79,11 +73,19 @@ def castVote(request):
 def polldetail(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
     user = request.user
-    if (poll.creator == user or poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time < timezone.now():
+    if ( poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time > timezone.now():
         options = Option.objects.filter(poll=poll)
         serializer1 = OptionSerializer(options, many=True)
         serializer2 = PollSerializer(poll)
-        return Response({"poll":serializer1.data, "options":serializer2.data}, status=status.HTTP_200_OK)
+        return Response({"poll":serializer2.data, "options":serializer1.data}, status=status.HTTP_200_OK)
 
 
     return Response({'detail':"Cannot access the poll"}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def mypolls(request):
+    polls = Poll.objects.filter(Q(creator=request.user))
+    serializer = PollSerializer(polls, many=True)
+    serializer = PollSerializer(polls, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./MyPollPage.css";
 import { Link, useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import BASE_URL from '../BaseURL'
 
 const MyPollPage = () => {
   console.log('test')
@@ -13,7 +14,7 @@ const MyPollPage = () => {
   useEffect(() => {
     
     const fetchPoll = async () => {
-      const response = await fetch(`http://192.168.21.188:8000/polls/poll/${poll_id}`, {
+      const response = await fetch(`${BASE_URL}/polls/poll/${poll_id}`, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("accessToken"),

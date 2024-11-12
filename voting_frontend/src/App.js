@@ -8,7 +8,7 @@ import Dashboard from "./components/Dashboard";
 import PrivateRoute from "./utils/PrivateRoute";
 import LoggedinRoute from "./utils/LoggedinRoute";
 import CreatePoll from "./components/CreatePoll";
-import PollPage from "./components/PollPage"; // Ensure PollPage is correctly imported
+import PollPage from './components/PollPage'
 import MyPolls from "./components/MyPolls";
 import MyPollPage from "./components/MyPollPage";
 

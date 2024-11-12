@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./PollPage.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import BASE_URL from '../BaseURL'
 
 const PollPage = () => {
   const { poll_id } = useParams();
@@ -13,7 +14,7 @@ const PollPage = () => {
 
   useEffect(() => {
     const fetchPoll = async () => {
-      const response = await fetch(`http://192.168.21.188:8000/polls/poll/${poll_id}`, {
+      const response = await fetch(`${BASE_URL}/polls/poll/${poll_id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -38,7 +39,7 @@ const PollPage = () => {
   }, [poll_id]);
 
   const handleVote = async () => {
-    const response = await fetch("http://192.168.21.188:8000/polls/castvote/", {
+    const response = await fetch(`${BASE_URL}/polls/castvote/`, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("accessToken"),

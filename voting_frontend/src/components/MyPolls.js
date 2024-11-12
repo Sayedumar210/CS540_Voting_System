@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Dashboard.css';
 import AuthContext from '../context/AuthContext';
+import BASE_URL from '../BaseURL'
 
 const MyPolls = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const MyPolls = () => {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const response = await fetch("http://192.168.21.188:8000/userauth/getuser", {
+      const response = await fetch(`${BASE_URL}/userauth/getuser`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -31,7 +32,7 @@ const MyPolls = () => {
     };
 
     const fetchPolls = async () => {
-      const response = await fetch("http://192.168.21.188:8000/polls/mypolls", {
+      const response = await fetch(`${BASE_URL}/polls/mypolls`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

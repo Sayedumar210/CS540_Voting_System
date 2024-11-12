@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from '../BaseURL'
 
 const AuthContext = createContext();
 
@@ -10,7 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://192.168.21.188:8000/userauth/login/", {
+    const response = await fetch(`${BASE_URL}/userauth/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   let handleSignUp = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://192.168.21.188:8000/userauth/signup", {
+    const response = await fetch(`${BASE_URL}/userauth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

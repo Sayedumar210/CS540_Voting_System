@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./CreatePoll.css";
 import AuthContext from "../context/AuthContext";
+import BASE_URL from '../BaseURL'
 
 const CreatePoll = () => {
   const { handleLogout } = useContext(AuthContext);
@@ -46,7 +47,7 @@ const CreatePoll = () => {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const response = await fetch("http://192.168.21.188:8000/userauth/getuser", {
+      const response = await fetch(`${BASE_URL}/userauth/getuser`, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("accessToken"),
@@ -68,7 +69,7 @@ const CreatePoll = () => {
 
   const handleSubmit = async () => {
     const expiryDateTime = `${expiryDate}T${expiryTime}:00`;
-    const response = await fetch("http://192.168.21.188:8000/polls/createpoll/", {
+    const response = await fetch(`${BASE_URL}/polls/createpoll/`, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("accessToken"),

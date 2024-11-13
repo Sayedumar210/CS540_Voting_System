@@ -1,70 +1,69 @@
 /* Auth.css */
 .auth-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f8f9fa;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .auth-title {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .auth-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .auth-input {
-    width: 300px;
-    padding: 15px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: border 0.3s ease;
-  }
-  
-  .auth-input:focus {
-    border-color: #007bff;
-  }
-  
-  .btn-primary, .btn-secondary {
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 150px;
-    margin-top: 20px;
-  }
-  
-  .btn-primary:hover, .btn-secondary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  .btn-back {
-    margin-top: 20px;
-    background-color: #6c757d;
-    color: white;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-back:hover {
-    background-color: #5a6268;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Arial', sans-serif;
+}
+
+.auth-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-input {
+  width: 300px;
+  padding: 15px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+}
+
+.auth-input:focus {
+  border-color: #007bff;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 150px;
+  margin-top: 20px;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-back {
+  margin-top: 20px;
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+  background-color: #5a6268;
+}

@@ -2,15 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Dashboard.css';
 import AuthContext from '../context/AuthContext';
-import BASE_URL from '../BaseURL'
+import BASE_URL from '../BaseURL';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [privatePolls, setPrivatePolls] = useState([]);
   const [publicPolls, setPublicPolls] = useState([]);
-
-  let { handleLogout } = useContext(AuthContext);
+  const { handleLogout } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -41,18 +40,12 @@ const Dashboard = () => {
         },
       });
 
-      let data = await response.json();
+      const data = await response.json();
 
       if (response.status === 200) {
-        let priPolls = [];
-        let pubPolls = [];
-        for (let poll of data) {
-          if (poll.private) {
-            priPolls.push(poll);
-          } else {
-            pubPolls.push(poll);
-          }
-        }
+        const priPolls = data.filter(poll => poll.private);
+        const pubPolls = data.filter(poll => !poll.private);
+
         setPrivatePolls(priPolls);
         setPublicPolls(pubPolls);
       } else {
@@ -63,7 +56,7 @@ const Dashboard = () => {
 
     fetchUserDetails();
     fetchPolls();
-  }, [handleLogout]);
+  }, [handleLogout]); // Remove publicPolls from dependencies
 
   if (!user) {
     return <div>Loading...</div>;
@@ -82,7 +75,7 @@ const Dashboard = () => {
         </ul>
         <div className="navbar-user">
           <span>
-            {user.first_name} {user.last_name}
+            {user.first_name} {user.last_name} | {user.email}
           </span>
           <button className="btn-primary" onClick={handleLogout}>
             Logout
@@ -93,12 +86,12 @@ const Dashboard = () => {
       <div className="polls-list-container">
         <h3>Invited Polls</h3>
         <ul className="polls-list">
-          {privatePolls.map((poll, index) => (
-            <li key={index}>
+          {privatePolls.map((poll) => (
+            <li key={poll.id}>
               {poll.question}
               <button
                 className="vote-button"
-                onClick={() => navigate(`/poll/${poll.id}`)} // Ensure URL is correctly formatted
+                onClick={() => navigate(`/poll/${poll.id}`)}
               >
                 Vote
               </button>
@@ -110,12 +103,12 @@ const Dashboard = () => {
       <div className="polls-list-container">
         <h3>Public Polls</h3>
         <ul className="polls-list">
-          {publicPolls.map((poll, index) => (
-            <li key={index}>
+          {publicPolls.map((poll) => (
+            <li key={poll.id}>
               {poll.question}
               <button
                 className="vote-button"
-                onClick={() => navigate(`/poll/${poll.id}`)} // Ensure URL is correctly formatted
+                onClick={() => navigate(`/poll/${poll.id}`)}
               >
                 Vote
               </button>

@@ -181,3 +181,7 @@ AUTH_USER_MODEL = 'userauth.User'
 
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+TIME_ZONE = 'Asia/Kolkata'
+
+USE_TZ = True

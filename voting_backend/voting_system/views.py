@@ -16,7 +16,8 @@ User = get_user_model()
 @permission_classes([IsAuthenticated])
 def getPolls(request):
     user = request.user
-    polls = Poll.objects.filter(Q(private=False) | Q(invited_voters=user) | Q(expiry_time__gt=timezone.now()))
+    print(timezone.localtime())
+    polls = Poll.objects.filter( ~Q(creator=user) & (Q(private=False) | Q(invited_voters=user) | Q(expiry_time__gt=timezone.localtime())))
     serializer = PollSerializer(polls, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -28,6 +29,7 @@ def createPoll(request):
     private = request.data['poll']['private']
     expiry_time = request.data['poll']['expiry_time']
     poll = Poll( question=question, creator=creator, expiry_time=expiry_time, private=private)
+    poll.save()
     email_not_found = []
     if private:
         for email in request.data['poll']['invited_users']:
@@ -40,7 +42,6 @@ def createPoll(request):
     response = {
         'detail':'poll created'
     }
-    poll.save()
     if len(email_not_found):
         response['users_not_found'] = email_not_found
     
@@ -56,7 +57,9 @@ def castVote(request):
     poll_id = request.data['poll_id']
     poll = Poll.objects.get(id=poll_id)
     user = request.user
-    if (poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time > timezone.now():
+    print('poll', poll.expiry_time)
+    print('timezone', timezone.localtime())
+    if ( poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time > timezone.localtime():
         option_id = request.data['option_id']
         option = Option.objects.get(id=option_id)
         vote, created = Vote.objects.get_or_create(poll = poll, option = option, voter = user)
@@ -73,7 +76,7 @@ def castVote(request):
 def polldetail(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
     user = request.user
-    if ( poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time > timezone.now():
+    if (poll.creator == user or poll.invited_voters.filter(id=user.id).exists() or not poll.private) and poll.expiry_time > timezone.localtime():
         options = Option.objects.filter(poll=poll)
         serializer1 = OptionSerializer(options, many=True)
         serializer2 = PollSerializer(poll)
